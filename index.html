@@ -18,10 +18,17 @@
             background: #007BFF;
             color: #fff;
             padding: 10px 15px;
+            position: relative;
+        }
+
+        .logo {
+            position: absolute;
+            top: 10px;
+            right: 10px;
         }
 
         .logo img {
-            max-width: 100%;
+            max-width: 120px;
             height: auto;
         }
 
@@ -102,6 +109,10 @@
                 width: 100%;
                 text-align: center;
             }
+
+            .logo img {
+                max-width: 80px;
+            }
         }
     </style>
 </head>
@@ -133,13 +144,11 @@
     <section id="animals">
         <h2>Zwierzaki do adopcji</h2>
         <div class="animal-gallery">
-            <!-- Przykładowe miejsce na zwierzaki -->
             <div class="animal-card">
                 <img src="animal-placeholder.jpg" alt="Przykładowe zdjęcie zwierzaka">
                 <h3>Burek</h3>
                 <p>Wiek: 3 lata<br>Radosny i energiczny pies, który czeka na nowy dom!</p>
             </div>
-            <!-- Możesz dodać więcej kart tutaj -->
         </div>
     </section>
 
@@ -153,7 +162,7 @@
         <h2>Kontakt</h2>
         <p>Odwiedź nas w Rawiczu lub skontaktuj się z nami:</p>
         <ul>
-            <li><i class="fas fa-map-marker-alt"></i> Adres: ul. Przykładowa 123, Rawicz</li>
+            <li><i class="fas fa-map-marker-alt"></i> Adres: <a href="https://www.google.com/maps?q=Zwierzyniecka+3,+63-900+Rawicz" target="_blank">Zwierzyniecka 3, 63-900 Rawicz</a></li>
             <li><i class="fas fa-phone"></i> Telefon: 508 939 115</li>
             <li><i class="fas fa-envelope"></i> E-mail: schronisko@rawicz.pl</li>
         </ul>
