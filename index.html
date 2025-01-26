@@ -45,6 +45,23 @@
             max-height: 200px;
             object-fit: cover;
         }
+
+        .admin-panel {
+            position: fixed;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            background-color: #007BFF;
+            color: white;
+            padding: 10px;
+            border-radius: 0 10px 10px 0;
+            cursor: pointer;
+        }
+
+        .modal-header {
+            background-color: #007BFF;
+            color: white;
+        }
     </style>
 </head>
 
@@ -89,24 +106,27 @@
         </div>
     </section>
 
-    <section id="admin-panel" class="container py-5">
-        <h2 class="text-center mb-4">Panel Administratora</h2>
-        <form id="admin-form">
-            <div class="mb-3">
-                <label for="animalName" class="form-label">Imię Zwierzaka</label>
-                <input type="text" class="form-control" id="animalName" placeholder="Wprowadź imię">
+    <div class="admin-panel" id="admin-access">Panel Admina</div>
+
+    <div class="modal fade" id="adminModal" tabindex="-1" aria-labelledby="adminModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="adminModalLabel">Dostęp do Panelu Admina</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="admin-login-form">
+                        <div class="mb-3">
+                            <label for="adminPassword" class="form-label">Hasło</label>
+                            <input type="password" class="form-control" id="adminPassword" placeholder="Wprowadź hasło">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Zaloguj</button>
+                    </form>
+                </div>
             </div>
-            <div class="mb-3">
-                <label for="animalDesc" class="form-label">Opis</label>
-                <textarea class="form-control" id="animalDesc" rows="3" placeholder="Wprowadź opis"></textarea>
-            </div>
-            <div class="mb-3">
-                <label for="animalImage" class="form-label">Zdjęcie Zwierzaka</label>
-                <input type="file" class="form-control" id="animalImage">
-            </div>
-            <button type="submit" class="btn btn-primary">Dodaj Zwierzaka</button>
-        </form>
-    </section>
+        </div>
+    </div>
 
     <section id="about" class="container py-5">
         <h2>O nas</h2>
@@ -117,9 +137,10 @@
     <section id="contact" class="container py-5">
         <h2>Kontakt</h2>
         <ul>
-            <li><i class="fas fa-map-marker-alt"></i> Adres: Zwierzyniecka 3, 63-900 Rawicz</li>
+            <li><i class="fas fa-map-marker-alt"></i> <a href="https://www.google.com/maps?q=Zwierzyniecka+3,+63-900+Rawicz" target="_blank">Zwierzyniecka 3, 63-900 Rawicz</a></li>
             <li><i class="fas fa-phone"></i> Telefon: 508 939 115</li>
             <li><i class="fas fa-envelope"></i> E-mail: schronisko@rawicz.pl</li>
+            <li><i class="fab fa-facebook"></i> <a href="https://www.facebook.com/schroniskowrawiczu/?locale=pl_PL" target="_blank">Schronisko na Facebooku</a> - aktualności i kontakt</li>
         </ul>
     </section>
 
@@ -128,6 +149,22 @@
     </footer>
 
     <script>
+        document.getElementById('admin-access').addEventListener('click', function () {
+            new bootstrap.Modal(document.getElementById('adminModal')).show();
+        });
+
+        document.getElementById('admin-login-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const password = document.getElementById('adminPassword').value;
+
+            if (password === 'admin123') { // Zamień na silniejsze hasło w rzeczywistym zastosowaniu
+                alert('Zalogowano pomyślnie!');
+                window.location.href = '#admin-panel';
+            } else {
+                alert('Nieprawidłowe hasło!');
+            }
+        });
+
         document.getElementById('admin-form').addEventListener('submit', function (e) {
             e.preventDefault();
             const name = document.getElementById('animalName').value;
@@ -145,19 +182,51 @@
                         <div class="card animal-card">
                             <img src="${e.target.result}" class="card-img-top" alt="${name}">
                             <div class="card-body">
+                            <img src="${e.target.result}" class="card-img-top" alt="${name}">
+                            <div class="card-body">
                                 <h5 class="card-title">${name}</h5>
                                 <p class="card-text">${desc}</p>
                             </div>
                         </div>`;
 
                     gallery.appendChild(col);
+                    alert('Nowe zwierzę zostało dodane do galerii!');
                 };
                 reader.readAsDataURL(image);
             } else {
-                alert('Wypełnij wszystkie pola!');
+                alert('Uzupełnij wszystkie pola przed dodaniem zwierzaka!');
             }
         });
     </script>
+
+    <!-- Modal do dodawania zwierząt -->
+    <div class="modal fade" id="admin-panel" tabindex="-1" aria-labelledby="adminPanelLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="adminPanelLabel">Dodaj nowego zwierzaka</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="admin-form">
+                        <div class="mb-3">
+                            <label for="animalName" class="form-label">Imię zwierzaka</label>
+                            <input type="text" class="form-control" id="animalName" placeholder="Wprowadź imię zwierzaka">
+                        </div>
+                        <div class="mb-3">
+                            <label for="animalDesc" class="form-label">Opis zwierzaka</label>
+                            <textarea class="form-control" id="animalDesc" rows="3" placeholder="Wprowadź krótki opis zwierzaka"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="animalImage" class="form-label">Zdjęcie zwierzaka</label>
+                            <input type="file" class="form-control" id="animalImage" accept="image/*">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Dodaj zwierzaka</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>
