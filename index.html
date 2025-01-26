@@ -3,150 +3,145 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Schronisko dla Zwierząt w Rawiczu</title>
-    <script src="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.12.0/dist/cdn.min.js"></script>
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <title>Schronisko Rawicz</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <style>
         body {
-            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
         }
-
-        .fade-enter-active, .fade-leave-active {
-            transition: opacity 0.5s;
+        .navbar-brand {
+            font-weight: bold;
         }
-
-        .fade-enter, .fade-leave-to {
-            opacity: 0;
+        .card {
+            margin: 10px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
         }
     </style>
 </head>
-<body class="bg-gray-50">
-    <!-- Header -->
-    <header class="bg-blue-600 text-white py-4 shadow-md">
-        <div class="container mx-auto flex justify-between items-center px-4">
-            <div class="logo">
-                <img src="logo.png" alt="Logo Schroniska" class="h-12">
-            </div>
-            <nav>
-                <ul class="flex space-x-4">
-                    <li><a href="#home" class="hover:text-gray-200">Strona Główna</a></li>
-                    <li><a href="#animals" class="hover:text-gray-200">Zwierzaki</a></li>
-                    <li><a href="#about" class="hover:text-gray-200">O nas</a></li>
-                    <li><a href="#contact" class="hover:text-gray-200">Kontakt</a></li>
-                    <li><a href="#donate" class="hover:text-gray-200">Wsparcie</a></li>
-                    <li><a href="/admin" class="hover:text-gray-200 font-bold">Panel Admina</a></li>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Schronisko Rawicz</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Strona Główna</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#zwierzaki">Zwierzaki</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#kontakt">Kontakt</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#admin">Panel Admina</a>
+                    </li>
                 </ul>
-            </nav>
+            </div>
         </div>
-    </header>
+    </nav>
 
-    <!-- Main Content -->
-    <main id="app" x-data="adminPanel()">
-        <!-- Hero Section -->
-        <section id="home" class="bg-gray-100 py-16 text-center">
-            <h1 class="text-4xl font-bold text-blue-600">Witaj w Schronisku dla Zwierząt w Rawiczu</h1>
-            <p class="text-gray-700 mt-4">Pomagamy zwierzętom znaleźć nowy dom i lepsze życie.</p>
-            <a href="#animals" class="mt-6 inline-block bg-blue-500 text-white py-2 px-4 rounded-lg shadow hover:bg-blue-600">Poznaj naszych podopiecznych</a>
-        </section>
+    <div class="container mt-4">
+        <h1 class="text-center">Witaj w Schronisku dla Zwierząt w Rawiczu</h1>
+        <p class="text-center">Pomagamy zwierzętom znaleźć nowy dom i lepsze życie.</p>
 
-        <!-- Animals Section -->
-        <section id="animals" class="py-16">
-            <div class="container mx-auto px-4">
-                <h2 class="text-3xl font-semibold text-gray-800 mb-6">Zwierzaki do adopcji</h2>
-                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                    <!-- Animal Cards -->
-                    <template x-for="animal in animals" :key="animal.id">
-                        <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                            <img :src="animal.image" alt="Zdjęcie zwierzaka" class="w-full h-40 object-cover">
-                            <div class="p-4">
-                                <h3 class="text-xl font-bold text-gray-800" x-text="animal.name"></h3>
-                                <p class="text-gray-600 mt-2" x-text="animal.description"></p>
-                                <button @click="removeAnimal(animal.id)" class="mt-4 text-red-500 hover:underline">Usuń</button>
-                            </div>
-                        </div>
-                    </template>
-                </div>
+        <section id="zwierzaki">
+            <h2 class="text-center">Zwierzaki do Adopcji</h2>
+            <div id="animalList" class="row">
+                <!-- Karty zwierzaków zostaną dodane dynamicznie -->
             </div>
         </section>
 
-        <!-- Admin Panel (Hidden by Default) -->
-        <section id="admin" x-show="showAdmin" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center">
-            <div class="bg-white p-6 rounded-lg w-1/2">
-                <h2 class="text-2xl font-bold text-gray-800 mb-4">Panel Administracyjny</h2>
-
-                <!-- Admin Login -->
-                <div x-show="!authenticated">
-                    <p class="text-gray-600 mb-2">Podaj hasło administratora:</p>
-                    <input type="password" x-model="password" class="w-full p-2 border rounded mb-4">
-                    <button @click="authenticate" class="bg-blue-500 text-white py-2 px-4 rounded">Zaloguj się</button>
-                </div>
-
-                <!-- Admin Controls -->
-                <div x-show="authenticated">
-                    <form @submit.prevent="addAnimal">
-                        <input type="text" placeholder="Imię zwierzaka" x-model="newAnimal.name" class="w-full p-2 border rounded mb-2">
-                        <textarea placeholder="Opis zwierzaka" x-model="newAnimal.description" class="w-full p-2 border rounded mb-2"></textarea>
-                        <input type="file" @change="uploadImage" class="w-full p-2 border rounded mb-2">
-                        <button type="submit" class="bg-green-500 text-white py-2 px-4 rounded">Dodaj zwierzaka</button>
-                    </form>
-                </div>
+        <section id="admin" class="mt-5">
+            <h2 class="text-center">Panel Administratora</h2>
+            <div class="card p-4">
+                <form id="addAnimalForm">
+                    <div class="mb-3">
+                        <label for="animalName" class="form-label">Imię Zwierzaka</label>
+                        <input type="text" class="form-control" id="animalName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="animalDescription" class="form-label">Opis</label>
+                        <textarea class="form-control" id="animalDescription" rows="3" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="animalImage" class="form-label">Zdjęcie</label>
+                        <input type="file" class="form-control" id="animalImage" accept="image/*" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Dodaj Zwierzaka</button>
+                </form>
             </div>
         </section>
-    </main>
+    </div>
 
-    <!-- Footer -->
-    <footer class="bg-blue-600 text-white text-center py-4">
+    <footer class="text-center mt-5">
         <p>&copy; 2025 Schronisko dla Zwierząt w Rawiczu</p>
     </footer>
 
     <script>
-        function adminPanel() {
-            return {
-                animals: [
-                    { id: 1, name: "Burek", description: "Radosny i energiczny pies.", image: "animal-placeholder.jpg" },
-                    { id: 2, name: "Luna", description: "Spokojna i przyjazna suka.", image: "animal-placeholder.jpg" }
-                ],
-                showAdmin: false,
-                authenticated: false,
-                password: "",
-                newAnimal: { name: "", description: "", image: "" },
+        const animalList = document.getElementById('animalList');
+        const addAnimalForm = document.getElementById('addAnimalForm');
 
-                authenticate() {
-                    if (this.password === "admin123") {
-                        this.authenticated = true;
-                        this.password = "";
-                    } else {
-                        alert("Nieprawidłowe hasło");
-                    }
-                },
+        // Przechowywanie zwierzaków
+        let animals = [];
 
-                addAnimal() {
-                    if (this.newAnimal.name && this.newAnimal.description && this.newAnimal.image) {
-                        const id = Date.now();
-                        this.animals.push({ ...this.newAnimal, id });
-                        this.newAnimal = { name: "", description: "", image: "" };
-                    } else {
-                        alert("Wypełnij wszystkie pola");
-                    }
-                },
-
-                removeAnimal(id) {
-                    this.animals = this.animals.filter(animal => animal.id !== id);
-                },
-
-                uploadImage(event) {
-                    const file = event.target.files[0];
-                    if (file) {
-                        const reader = new FileReader();
-                        reader.onload = (e) => {
-                            this.newAnimal.image = e.target.result;
-                        };
-                        reader.readAsDataURL(file);
-                    }
-                }
-            };
+        // Funkcja renderująca listę zwierzaków
+        function renderAnimals() {
+            animalList.innerHTML = '';
+            animals.forEach((animal, index) => {
+                const card = document.createElement('div');
+                card.className = 'col-md-4';
+                card.innerHTML = `
+                    <div class="card">
+                        <img src="${animal.image}" class="card-img-top" alt="${animal.name}">
+                        <div class="card-body">
+                            <h5 class="card-title">${animal.name}</h5>
+                            <p class="card-text">${animal.description}</p>
+                            <button class="btn btn-danger" onclick="removeAnimal(${index})">Usuń</button>
+                        </div>
+                    </div>
+                `;
+                animalList.appendChild(card);
+            });
         }
+
+        // Dodawanie zwierzaka
+        addAnimalForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const name = document.getElementById('animalName').value;
+            const description = document.getElementById('animalDescription').value;
+            const imageInput = document.getElementById('animalImage');
+
+            if (imageInput.files && imageInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const newAnimal = {
+                        name,
+                        description,
+                        image: e.target.result
+                    };
+                    animals.push(newAnimal);
+                    renderAnimals();
+                    addAnimalForm.reset();
+                };
+                reader.readAsDataURL(imageInput.files[0]);
+            }
+        });
+
+        // Usuwanie zwierzaka
+        function removeAnimal(index) {
+            animals.splice(index, 1);
+            renderAnimals();
+        }
+
+        // Wstępne renderowanie
+        renderAnimals();
     </script>
 </body>
 </html>
