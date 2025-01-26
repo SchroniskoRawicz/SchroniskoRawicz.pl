@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* Mobile-first CSS */
         body {
             margin: 0;
             font-family: Arial, sans-serif;
@@ -18,18 +17,14 @@
             background: #007BFF;
             color: #fff;
             padding: 10px 15px;
-            position: relative;
-        }
-
-        .logo {
-            position: absolute;
-            top: 10px;
-            right: 10px;
         }
 
         .logo img {
-            max-width: 120px;
+            max-width: 150px;
             height: auto;
+            position: absolute;
+            right: 15px;
+            top: 10px;
         }
 
         nav ul {
@@ -95,6 +90,36 @@
             color: white;
         }
 
+        #admin-panel {
+            display: none;
+            background: #f9f9f9;
+            padding: 20px;
+            border: 1px solid #ddd;
+            margin: 20px auto;
+            max-width: 500px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        #admin-panel input,
+        #admin-panel button {
+            width: 100%;
+            margin: 5px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        #admin-panel button {
+            background: #007BFF;
+            color: white;
+            cursor: pointer;
+        }
+
+        #admin-panel button:hover {
+            background: #0056b3;
+        }
+
         @media (max-width: 600px) {
             .hero {
                 padding: 20px;
@@ -109,18 +134,61 @@
                 width: 100%;
                 text-align: center;
             }
-
-            .logo img {
-                max-width: 80px;
-            }
         }
     </style>
+    <script>
+        // Sample data structure for animals
+        const animals = [
+            { name: "Burek", age: "3 lata", description: "Radosny i energiczny pies, który czeka na nowy dom!", image: "animal-placeholder.jpg" }
+        ];
+
+        // Function to render animals in the gallery
+        function renderAnimals() {
+            const gallery = document.querySelector(".animal-gallery");
+            gallery.innerHTML = animals
+                .map(
+                    (animal) => `
+                    <div class="animal-card">
+                        <img src="${animal.image}" alt="Zdjęcie ${animal.name}">
+                        <h3>${animal.name}</h3>
+                        <p>Wiek: ${animal.age}<br>${animal.description}</p>
+                    </div>`
+                )
+                .join("");
+        }
+
+        // Function to toggle admin panel visibility
+        function toggleAdminPanel() {
+            const panel = document.getElementById("admin-panel");
+            panel.style.display = panel.style.display === "none" ? "block" : "none";
+        }
+
+        // Function to add a new animal
+        function addAnimal(event) {
+            event.preventDefault();
+            const name = document.getElementById("animal-name").value;
+            const age = document.getElementById("animal-age").value;
+            const description = document.getElementById("animal-description").value;
+            const image = document.getElementById("animal-image").value;
+
+            animals.push({ name, age, description, image });
+            renderAnimals();
+
+            // Clear form fields
+            document.getElementById("animal-name").value = "";
+            document.getElementById("animal-age").value = "";
+            document.getElementById("animal-description").value = "";
+            document.getElementById("animal-image").value = "";
+        }
+
+        // Initialize the gallery on page load
+        document.addEventListener("DOMContentLoaded", renderAnimals);
+    </script>
 </head>
 <body>
     <header>
         <nav>
             <div class="logo">
-                <!-- Logo Schroniska -->
                 <img src="308906326_405909218404868_7723853706995966166_n.jpg" alt="Logo Schroniska">
             </div>
             <ul>
@@ -129,6 +197,7 @@
                 <li><a href="#about">O nas</a></li>
                 <li><a href="#contact">Kontakt</a></li>
                 <li><a href="#donate">Wsparcie</a></li>
+                <li><a href="#" onclick="toggleAdminPanel()">Admin</a></li>
             </ul>
         </nav>
     </header>
@@ -144,38 +213,19 @@
     <section id="animals">
         <h2>Zwierzaki do adopcji</h2>
         <div class="animal-gallery">
-            <div class="animal-card">
-                <img src="pamela.jpg" alt="Przykładowe zdjęcie zwierzaka">
-                <h3>Pamela</h3>
-                <p>Wiek: 3 lata<br>Radosny i energiczny pies, Idealny dla ludzi chcących dodać trochę ciepła do swojego ogniska domowego.!</p>
-            </div>
+            <!-- Zwierzaki renderowane dynamicznie -->
         </div>
     </section>
 
-    <section id="about">
-        <h2>O nas</h2>
-        <p>Schronisko dla Zwierząt w Rawiczu zostało uruchomione w 2020 roku. Budowa kosztowała Gminę Rawicz ok. 1,2 mln zł, z czego 280 tys. zł to środki z budżetu obywatelskiego. Naszą misją jest zapewnienie każdemu podopiecznemu miłości, troski i nowego domu.</p>
-        <p>Obecnie schronisko dysponuje 23 kojcami dla psów. Trafiają do nas zwierzęta z gminy Rawicz oraz okolicznych miejscowości. Wierzymy, że miarą człowieczeństwa jest nasz stosunek do zwierząt.</p>
-    </section>
-
-    <section id="contact">
-        <h2>Kontakt</h2>
-        <p>Odwiedź nas w Rawiczu lub skontaktuj się z nami:</p>
-        <ul>
-            <li><i class="fas fa-map-marker-alt"></i> Adres: <a href="https://www.google.com/maps?q=Zwierzyniecka+3,+63-900+Rawicz" target="_blank">Zwierzyniecka 3, 63-900 Rawicz</a></li>
-            <li><i class="fas fa-phone"></i> Telefon: 508 939 115</li>
-            <li><i class="fas fa-envelope"></i> E-mail: schronisko@rawicz.pl</li>
-        </ul>
-        <p>Aktualności i ogłoszenia znajdziesz na naszym profilu na Facebooku:</p>
-        <p><a href="https://www.facebook.com/schroniskowrawiczu/" target="_blank">Schronisko dla Zwierząt w Rawiczu</a></p>
-    </section>
-
-    <section id="donate">
-        <h2>Wsparcie</h2>
-        <p>Pomóż nam pomagać! Wspieraj schronisko finansowo, abyśmy mogli zapewnić lepsze warunki naszym podopiecznym.</p>
-        <p>Konto do wpłat: 88 8669 0001 2002 0028 9779 0001</p>
-        <p>Bank: PBS we Wschowie / o. Rawicz</p>
-        <a href="https://www.paypal.com" class="btn">Wesprzyj nas teraz</a>
+    <section id="admin-panel">
+        <h2>Dodaj zwierzaka</h2>
+        <form onsubmit="addAnimal(event)">
+            <input type="text" id="animal-name" placeholder="Imię zwierzaka" required>
+            <input type="text" id="animal-age" placeholder="Wiek zwierzaka" required>
+            <textarea id="animal-description" placeholder="Opis zwierzaka" required></textarea>
+            <input type="text" id="animal-image" placeholder="URL do zdjęcia" required>
+            <button type="submit">Dodaj</button>
+        </form>
     </section>
 
     <footer>
