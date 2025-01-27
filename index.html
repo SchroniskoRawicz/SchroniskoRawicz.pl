@@ -12,7 +12,8 @@
             font-family: Arial, sans-serif;
         }
 
-        header {
+        header 
+<div id="admin-access" class="admin-panel">Admin Panel</div>{
             background-color: #007BFF;
             color: white;
             padding: 15px 0;
@@ -212,6 +213,33 @@
         new bootstrap.Modal(document.getElementById('adminModal')).show();
     });
 
+    document.getElementById('admin-login-form').addEventListener('submit', function (e) {
+        e.preventDefault();
+        const password = document.getElementById('adminPassword').value;
+
+        if (password === 'admin123') { // Przykładowe hasło, zmień na silniejsze w realnej aplikacji
+            alert('Zalogowano pomyślnie!');
+            document.getElementById('admin-panel').style.display = 'block';
+        } else {
+            alert('Nieprawidłowe hasło!');
+        }
+    });
+
+    // Obsługa dodawania zwierząt
+    document.getElementById('admin-form').addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const name = document.getElementById('animalName').value;
+        const desc = document.getElementById('animalDesc').value;
+        const imageInput = document.getElementById('animalImage');
+        const image = imageInput.files[0];
+
+        if (name && desc && image) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const gallery = document.getElementById('animal-gallery');
+<script>
+    // Obsługa otwierania panelu admina
     document.getElementById('admin-login-form').addEventListener('submit', function (e) {
         e.preventDefault();
         const password = document.getElementById('adminPassword').value;
