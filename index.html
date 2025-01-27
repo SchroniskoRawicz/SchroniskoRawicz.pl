@@ -112,27 +112,49 @@
         </div>
     </section>
 
-    <div class="admin-panel" id="admin-access">Panel Admina</div>
+   <div class="modal fade" id="adminModal" tabindex="-1" aria-labelledby="adminModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="adminModalLabel">Panel Admina</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="admin-login-form">
+                    <div class="mb-3">
+                        <label for="adminPassword" class="form-label">Hasło</label>
+                        <input type="password" class="form-control" id="adminPassword" placeholder="Wprowadź hasło">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Zaloguj</button>
+                </form>
 
-    <div class="modal fade" id="adminModal" tabindex="-1" aria-labelledby="adminModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="adminModalLabel">Dostęp do Panelu Admina</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="admin-login-form">
+                <div id="admin-panel" class="mt-4" style="display: none;">
+                    <h5>Zarządzanie Zwierzętami</h5>
+                    <form id="admin-form" class="mb-4">
                         <div class="mb-3">
-                            <label for="adminPassword" class="form-label">Hasło</label>
-                            <input type="password" class="form-control" id="adminPassword" placeholder="Wprowadź hasło">
+                            <label for="animalName" class="form-label">Imię Zwierzaka</label>
+                            <input type="text" class="form-control" id="animalName" placeholder="Wprowadź imię">
                         </div>
-                        <button type="submit" class="btn btn-primary">Zaloguj</button>
+                        <div class="mb-3">
+                            <label for="animalDesc" class="form-label">Opis Zwierzaka</label>
+                            <textarea class="form-control" id="animalDesc" placeholder="Dodaj opis"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="animalImage" class="form-label">Zdjęcie Zwierzaka</label>
+                            <input type="file" class="form-control" id="animalImage" accept="image/*">
+                        </div>
+                        <button type="submit" class="btn btn-success">Dodaj Zwierzaka</button>
                     </form>
+
+                    <div id="admin-animal-list">
+                        <h6>Aktualna lista zwierząt</h6>
+                        <ul class="list-group" id="animal-list"></ul>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
     <section id="about" class="container py-5">
         <h2>O nas</h2>
@@ -184,5 +206,69 @@
                 const reader = new FileReader();
                 reader.onload = function (e) {
                     const gallery
+<script>
+    // Obsługa logowania i panelu admina
+    document.getElementById('admin-access').addEventListener('click', function () {
+        new bootstrap.Modal(document.getElementById('adminModal')).show();
+    });
+
+    document.getElementById('admin-login-form').addEventListener('submit', function (e) {
+        e.preventDefault();
+        const password = document.getElementById('adminPassword').value;
+
+        if (password === 'admin123') { // Przykładowe hasło, zmień na silniejsze w realnej aplikacji
+            alert('Zalogowano pomyślnie!');
+            document.getElementById('admin-panel').style.display = 'block';
+        } else {
+            alert('Nieprawidłowe hasło!');
+        }
+    });
+
+    // Obsługa dodawania zwierząt
+    document.getElementById('admin-form').addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const name = document.getElementById('animalName').value;
+        const desc = document.getElementById('animalDesc').value;
+        const imageInput = document.getElementById('animalImage');
+        const image = imageInput.files[0];
+
+        if (name && desc && image) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const gallery = document.getElementById('animal-gallery');
+
+                const col = document.createElement('div');
+                col.className = 'col-md-4';
+
+                col.innerHTML = `
+                    <div class="card animal-card">
+                        <img src="${e.target.result}" class="card-img-top" alt="${name}">
+                        <div class="card-body">
+                            <h5 class="card-title">${name}</h5>
+                            <p class="card-text">${desc}</p>
+                            <button class="btn btn-danger btn-sm delete-animal">Usuń</button>
+                        </div>
+                    </div>
+                `;
+                gallery.appendChild(col);
+
+                // Resetowanie formularza
+                document.getElementById('admin-form').reset();
+            };
+
+            reader.readAsDataURL(image);
+        } else {
+            alert('Proszę uzupełnić wszystkie pola i dodać zdjęcie.');
+        }
+    });
+
+    // Obsługa usuwania zwierząt
+    document.getElementById('animal-gallery').addEventListener('click', function (e) {
+        if (e.target.classList.contains('delete-animal')) {
+            e.target.closest('.col-md-4').remove();
+        }
+    });
+</script>
 
 </html>
